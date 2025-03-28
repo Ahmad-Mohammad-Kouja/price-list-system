@@ -15,14 +15,32 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id')
                 ->constrained('products')
+                ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-            $table->char('country_code', 3)->nullable();
-            $table->char('currency_code', 3)->nullable();
+
+            $table->unsignedTinyInteger('country_id')
+                ->nullable();
+
+            $table->unsignedTinyInteger('currency_id')
+                ->nullable();
+
             $table->decimal('price', 10, 2)->unsigned();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->unsignedInteger('priority');
             $table->timestamps();
+
+            $table->foreign('country_id')
+                ->references('id')
+                ->on('countries')
+                ->noActionOnUpdate()
+                ->noActionOnDelete();
+
+            $table->foreign('currency_id')
+                ->references('id')
+                ->on('currencies')
+                ->noActionOnUpdate()
+                ->noActionOnDelete();
         });
     }
 
