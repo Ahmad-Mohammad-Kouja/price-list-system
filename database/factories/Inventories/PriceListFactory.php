@@ -2,6 +2,8 @@
 
 namespace Database\Factories\Inventories;
 
+use App\Domain\Entities\Models\Country;
+use App\Domain\Entities\Models\Currency;
 use App\Domain\Inventories\Models\PriceList;
 use App\Domain\Inventories\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -27,8 +29,8 @@ class PriceListFactory extends Factory
     {
         return [
             'product_id' => Product::factory(),
-            'country_code' => fake()->boolean(70) ? fake()->countryISOAlpha3() : null,
-            'currency_code' => fake()->boolean(70) ? fake()->countryCode() : null,
+            'country_id' => fake()->boolean(70) ? Country::factory() : null,
+            'currency_id' => fake()->boolean(70) ? Currency::factory() : null,
             'price' => fake()->randomFloat(2, 5, 500),
             'start_date' => fake()->boolean(70) ? fake()->dateTimeThisYear() : null,
             'end_date' => fake()->boolean(50) ? fake()->dateTimeThisYear('+6 months') : null,
