@@ -5,17 +5,13 @@ namespace App\Domain\Inventories\Models;
 use Database\Factories\Inventories\ProductFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Product extends Model
 {
     use HasFactory;
 
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
+    protected $table = 'products';
 
     /**
      * The attributes that are mass assignable.
@@ -26,6 +22,11 @@ class Product extends Model
         'name',
         'base_price',
     ];
+
+    public function description(): HasOne
+    {
+        return $this->hasOne(ProductDescription::class);
+    }
 
     /**
      * Create a new factory instance for the model.

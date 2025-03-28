@@ -1,23 +1,17 @@
 <?php
 
-namespace App\Domain\Entities\Models;
+namespace App\Domain\Inventories\Models;
 
-use Database\Factories\Entities\CurrencyFactory;
+use Database\Factories\Inventories\ProductDescriptionFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Currency extends Model
+class ProductDescription extends Model
 {
     use HasFactory;
 
-    protected $table = 'currencies';
-    
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
+    protected $table = 'product_descriptions';
 
     /**
      * The attributes that are mass assignable.
@@ -25,9 +19,14 @@ class Currency extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'code',
-        'name',
+        'product_id',
+        'description',
     ];
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
+    }
 
     /**
      * Create a new factory instance for the model.
@@ -36,6 +35,6 @@ class Currency extends Model
      */
     protected static function newFactory()
     {
-        return CurrencyFactory::new();
+        return ProductDescriptionFactory::new();
     }
 }

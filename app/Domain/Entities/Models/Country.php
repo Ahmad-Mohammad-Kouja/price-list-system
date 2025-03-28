@@ -10,6 +10,8 @@ class Country extends Model
 {
     use HasFactory;
 
+    protected $table = 'countries';
+
     /**
      * Indicates if the model should be timestamped.
      *
