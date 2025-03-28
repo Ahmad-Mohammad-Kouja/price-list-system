@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('price_lists', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
+            $table->foreignId('product_id')
+                ->constrained('products')
+                ->cascadeOnDelete();
             $table->char('country_code', 3)->nullable();
             $table->char('currency_code', 3)->nullable();
             $table->decimal('price', 10, 2)->unsigned();
