@@ -27,7 +27,7 @@ class ProductDescriptionFactory extends Factory
     {
         return [
             'product_id' => Product::factory(),
-            'description' => $this->faker->paragraph(),
+            'description' => fake()->paragraph(),
         ];
     }
 }

@@ -23,11 +23,6 @@ class Product extends Model
         'base_price',
     ];
 
-    public function description(): HasOne
-    {
-        return $this->hasOne(ProductDescription::class);
-    }
-
     /**
      * Create a new factory instance for the model.
      *
@@ -36,5 +31,10 @@ class Product extends Model
     protected static function newFactory()
     {
         return ProductFactory::new();
+    }
+
+    public function description(): HasOne
+    {
+        return $this->hasOne(ProductDescription::class);
     }
 }

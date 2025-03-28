@@ -2,16 +2,16 @@
 
 namespace App\Domain\Inventories\Models;
 
-use Database\Factories\Inventories\ProductDescriptionFactory;
+use Database\Factories\Inventories\PriceListFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class ProductDescription extends Model
+class PriceList extends Model
 {
     use HasFactory;
 
-    protected $table = 'product_descriptions';
+    protected $table = 'price_lists';
 
     /**
      * The attributes that are mass assignable.
@@ -20,7 +20,24 @@ class ProductDescription extends Model
      */
     protected $fillable = [
         'product_id',
-        'description',
+        'country_code',
+        'currency_code',
+        'price',
+        'start_date',
+        'end_date',
+        'priority',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'start_date' => 'date',
+        'end_date' => 'date',
+        'price' => 'decimal:2',
+        'priority' => 'integer',
     ];
 
     /**
@@ -30,7 +47,7 @@ class ProductDescription extends Model
      */
     protected static function newFactory()
     {
-        return ProductDescriptionFactory::new();
+        return PriceListFactory::new();
     }
 
     public function product(): BelongsTo
