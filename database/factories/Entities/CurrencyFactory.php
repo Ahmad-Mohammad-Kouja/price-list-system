@@ -2,20 +2,20 @@
 
 namespace Database\Factories\Entities;
 
-use App\Domain\Entities\Models\Country;
+use App\Domain\Entities\Models\Currency;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Domain\Entities\Models\Country>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Domain\Entities\Models\Currency>
  */
-class CountryFactory extends Factory
+class CurrencyFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Country::class;
+    protected $model = Currency::class;
 
     /**
      * Define the model's default state.
@@ -25,8 +25,8 @@ class CountryFactory extends Factory
     public function definition(): array
     {
         return [
-            'code' => fake()->unique()->countryISOAlpha3(),
-            'name' => fake()->unique()->country(),
+            'code' => $this->faker->unique()->currencyCode(),
+            'name' => $this->faker->unique()->country(),
         ];
     }
 }
