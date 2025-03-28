@@ -2,6 +2,8 @@
 
 namespace Database\Factories\Entities;
 
+use App\Domain\Entities\Models\Country;
+use App\Domain\Entities\Models\Currency;
 use App\Domain\Entities\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -25,8 +27,8 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
-            'country_code' => fake()->countryISOAlpha3(),
-            'currency_code' => fake()->currencyCode(),
+            'country_id' => fake()->boolean(70) ? Country::factory() : null,
+            'currency_id' => fake()->boolean(70) ? Currency::factory() : null,
         ];
     }
 
