@@ -25,6 +25,7 @@ namespace App\Domain\Entities\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Country whereCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Country whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Country whereName($value)
+ * @mixin \Eloquent
  */
 	class Country extends \Eloquent {}
 }
@@ -43,6 +44,7 @@ namespace App\Domain\Entities\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Currency whereCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Currency whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Currency whereName($value)
+ * @mixin \Eloquent
  */
 	class Currency extends \Eloquent {}
 }
@@ -62,6 +64,8 @@ namespace App\Domain\Entities\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
+ * @property-read int|null $tokens_count
  * @method static \Database\Factories\Entities\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
@@ -75,6 +79,7 @@ namespace App\Domain\Entities\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 	class User extends \Eloquent {}
 }
@@ -93,8 +98,8 @@ namespace App\Domain\Inventories\Models{
  * @property int $priority
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Domain\Entities\Models\Country|null $country
- * @property-read \App\Domain\Entities\Models\Currency|null $currency
+ * @property-read Country|null $country
+ * @property-read Currency|null $currency
  * @property-read \App\Domain\Inventories\Models\Product $product
  * @method static \Database\Factories\Inventories\PriceListFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PriceList newModelQuery()
@@ -110,6 +115,7 @@ namespace App\Domain\Inventories\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PriceList whereProductId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PriceList whereStartDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PriceList whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 	class PriceList extends \Eloquent {}
 }
@@ -126,15 +132,16 @@ namespace App\Domain\Inventories\Models{
  * @property-read \App\Domain\Inventories\Models\ProductDescription|null $description
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Domain\Inventories\Models\PriceList> $priceLists
  * @property-read int|null $price_lists_count
+ * @method static \App\Domain\Inventories\Builders\ProductQueryBuilder<static>|Product addApplicablePrice(\App\Domain\Inventories\Dtos\PriceListFilterDTO $priceListFilterDTO)
  * @method static \Database\Factories\Inventories\ProductFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereBasePrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereUpdatedAt($value)
+ * @method static \App\Domain\Inventories\Builders\ProductQueryBuilder<static>|Product newModelQuery()
+ * @method static \App\Domain\Inventories\Builders\ProductQueryBuilder<static>|Product newQuery()
+ * @method static \App\Domain\Inventories\Builders\ProductQueryBuilder<static>|Product query()
+ * @method static \App\Domain\Inventories\Builders\ProductQueryBuilder<static>|Product whereBasePrice($value)
+ * @method static \App\Domain\Inventories\Builders\ProductQueryBuilder<static>|Product whereCreatedAt($value)
+ * @method static \App\Domain\Inventories\Builders\ProductQueryBuilder<static>|Product whereId($value)
+ * @method static \App\Domain\Inventories\Builders\ProductQueryBuilder<static>|Product whereName($value)
+ * @method static \App\Domain\Inventories\Builders\ProductQueryBuilder<static>|Product whereUpdatedAt($value)
  */
 	class Product extends \Eloquent {}
 }
@@ -158,6 +165,7 @@ namespace App\Domain\Inventories\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductDescription whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductDescription whereProductId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductDescription whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 	class ProductDescription extends \Eloquent {}
 }
