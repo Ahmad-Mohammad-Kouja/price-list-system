@@ -2421,7 +2421,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Get the currently authenticated user.
          *
-         * @return \App\Models\User|null 
+         * @return \App\Domain\Entities\Models\User|null 
          * @static 
          */
         public static function user()
@@ -2459,7 +2459,7 @@ namespace Illuminate\Support\Facades {
          * Log the given user ID into the application without sessions or cookies.
          *
          * @param mixed $id
-         * @return \App\Models\User|false 
+         * @return \App\Domain\Entities\Models\User|false 
          * @static 
          */
         public static function onceUsingId($id)
@@ -2545,7 +2545,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param mixed $id
          * @param bool $remember
-         * @return \App\Models\User|false 
+         * @return \App\Domain\Entities\Models\User|false 
          * @static 
          */
         public static function loginUsingId($id, $remember = false)
@@ -2600,7 +2600,7 @@ namespace Illuminate\Support\Facades {
          * The application must be using the AuthenticateSession middleware.
          *
          * @param string $password
-         * @return \App\Models\User|null 
+         * @return \App\Domain\Entities\Models\User|null 
          * @throws \Illuminate\Auth\AuthenticationException
          * @static 
          */
@@ -2626,7 +2626,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Get the last user we attempted to authenticate.
          *
-         * @return \App\Models\User 
+         * @return \App\Domain\Entities\Models\User 
          * @static 
          */
         public static function getLastAttempted()
@@ -2750,7 +2750,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Return the currently cached user.
          *
-         * @return \App\Models\User|null 
+         * @return \App\Domain\Entities\Models\User|null 
          * @static 
          */
         public static function getUser()
@@ -2812,7 +2812,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Determine if the current user is authenticated. If not, throw an exception.
          *
-         * @return \App\Models\User 
+         * @return \App\Domain\Entities\Models\User 
          * @throws \Illuminate\Auth\AuthenticationException
          * @static 
          */
@@ -5088,7 +5088,7 @@ namespace Illuminate\Support\Facades {
          */
         public static function lock($name, $seconds = 0, $owner = null)
         {
-            /** @var \Illuminate\Cache\DatabaseStore $instance */
+            /** @var \Illuminate\Cache\RedisStore $instance */
             return $instance->lock($name, $seconds, $owner);
         }
 
@@ -5102,21 +5102,8 @@ namespace Illuminate\Support\Facades {
          */
         public static function restoreLock($name, $owner)
         {
-            /** @var \Illuminate\Cache\DatabaseStore $instance */
+            /** @var \Illuminate\Cache\RedisStore $instance */
             return $instance->restoreLock($name, $owner);
-        }
-
-        /**
-         * Remove an item from the cache if it is expired.
-         *
-         * @param string $key
-         * @return bool 
-         * @static 
-         */
-        public static function forgetIfExpired($key)
-        {
-            /** @var \Illuminate\Cache\DatabaseStore $instance */
-            return $instance->forgetIfExpired($key);
         }
 
         /**
@@ -5127,33 +5114,82 @@ namespace Illuminate\Support\Facades {
          */
         public static function flush()
         {
-            /** @var \Illuminate\Cache\DatabaseStore $instance */
+            /** @var \Illuminate\Cache\RedisStore $instance */
             return $instance->flush();
         }
 
         /**
-         * Get the underlying database connection.
+         * Remove all expired tag set entries.
          *
-         * @return \Illuminate\Database\MySqlConnection 
+         * @return void 
          * @static 
          */
-        public static function getConnection()
+        public static function flushStaleTags()
         {
-            /** @var \Illuminate\Cache\DatabaseStore $instance */
-            return $instance->getConnection();
+            /** @var \Illuminate\Cache\RedisStore $instance */
+            $instance->flushStaleTags();
+        }
+
+        /**
+         * Get the Redis connection instance.
+         *
+         * @return \Illuminate\Redis\Connections\Connection 
+         * @static 
+         */
+        public static function connection()
+        {
+            /** @var \Illuminate\Cache\RedisStore $instance */
+            return $instance->connection();
+        }
+
+        /**
+         * Get the Redis connection instance that should be used to manage locks.
+         *
+         * @return \Illuminate\Redis\Connections\Connection 
+         * @static 
+         */
+        public static function lockConnection()
+        {
+            /** @var \Illuminate\Cache\RedisStore $instance */
+            return $instance->lockConnection();
+        }
+
+        /**
+         * Specify the name of the connection that should be used to store data.
+         *
+         * @param string $connection
+         * @return void 
+         * @static 
+         */
+        public static function setConnection($connection)
+        {
+            /** @var \Illuminate\Cache\RedisStore $instance */
+            $instance->setConnection($connection);
         }
 
         /**
          * Specify the name of the connection that should be used to manage locks.
          *
-         * @param \Illuminate\Database\ConnectionInterface $connection
-         * @return \Illuminate\Cache\DatabaseStore 
+         * @param string $connection
+         * @return \Illuminate\Cache\RedisStore 
          * @static 
          */
         public static function setLockConnection($connection)
         {
-            /** @var \Illuminate\Cache\DatabaseStore $instance */
+            /** @var \Illuminate\Cache\RedisStore $instance */
             return $instance->setLockConnection($connection);
+        }
+
+        /**
+         * Get the Redis database instance.
+         *
+         * @return \Illuminate\Contracts\Redis\Factory 
+         * @static 
+         */
+        public static function getRedis()
+        {
+            /** @var \Illuminate\Cache\RedisStore $instance */
+            return $instance->getRedis();
         }
 
         /**
@@ -5164,7 +5200,7 @@ namespace Illuminate\Support\Facades {
          */
         public static function getPrefix()
         {
-            /** @var \Illuminate\Cache\DatabaseStore $instance */
+            /** @var \Illuminate\Cache\RedisStore $instance */
             return $instance->getPrefix();
         }
 
@@ -5177,7 +5213,7 @@ namespace Illuminate\Support\Facades {
          */
         public static function setPrefix($prefix)
         {
-            /** @var \Illuminate\Cache\DatabaseStore $instance */
+            /** @var \Illuminate\Cache\RedisStore $instance */
             $instance->setPrefix($prefix);
         }
 

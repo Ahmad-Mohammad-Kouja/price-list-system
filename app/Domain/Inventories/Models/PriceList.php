@@ -2,6 +2,8 @@
 
 namespace App\Domain\Inventories\Models;
 
+use App\Domain\Entities\Models\Country;
+use App\Domain\Entities\Models\Currency;
 use Database\Factories\Inventories\PriceListFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,8 +22,8 @@ class PriceList extends Model
      */
     protected $fillable = [
         'product_id',
-        'country_code',
-        'currency_code',
+        'country_id',
+        'currency_id',
         'price',
         'start_date',
         'end_date',
@@ -53,5 +55,15 @@ class PriceList extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+    public function currency(): BelongsTo
+    {
+        return $this->belongsTo(Currency::class);
     }
 }

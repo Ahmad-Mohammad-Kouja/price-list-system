@@ -2,9 +2,12 @@
 
 namespace App\Domain\Entities\Models;
 
+use Cache;
 use Database\Factories\Entities\CountryFactory;
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class Country extends Model
 {
@@ -37,5 +40,19 @@ class Country extends Model
     protected static function newFactory()
     {
         return CountryFactory::new();
+    }
+
+    public function findByCode(string $code): ?self
+    {
+        try {
+            return Cache::rememberForever(
+                "countries.{$code}",
+                fn() => self::query()->where('code', $code)->first(),
+            );
+        } catch (Exception $exception) {
+            Log::warning("error on get country: $code from cache, exception: {$exception->getMessage()}");
+        }
+
+        return null;
     }
 }
