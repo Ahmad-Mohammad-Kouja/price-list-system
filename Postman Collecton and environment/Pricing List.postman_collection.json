@@ -1,0 +1,487 @@
+{
+	"info": {
+		"_postman_id": "f3749fb1-f8f5-40a6-9cc3-ef3f40c937ea",
+		"name": "Pricing List",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34312175"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(pm.response.text());",
+									"",
+									"if (pm.response.code == 200)",
+									"pm.environment.set(\"pricing_list_user_token\", jsonData.data.token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "test@example.com",
+									"description": "required | email",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"description": "require | string",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{pricing_list_user_base_url}}/auth/login",
+							"host": [
+								"{{pricing_list_user_base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "test@example.com",
+											"description": "required | email",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"description": "require | string",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{pricing_list_user_base_url}}/auth/login",
+									"host": [
+										"{{pricing_list_user_base_url}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.4.1"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 28 Mar 2025 23:25:23 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"global.response_messages.success\",\n    \"data\": {\n        \"user\": {\n            \"id\": 1,\n            \"name\": \"Test User\",\n            \"email\": \"test@example.com\",\n            \"country_code\": null,\n            \"currency_code\": null,\n            \"created_at\": \"2025-03-28T22:19:36.000000Z\",\n            \"updated_at\": \"2025-03-28T22:19:36.000000Z\"\n        },\n        \"token\": \"1|cRVFxIzY6VsrmyGPgEIaw4mXt4F8ej82nO7AuH8Fd214a734\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(pm.response.text());",
+									"",
+									"if (pm.response.code == 200)",
+									"pm.environment.set(\"pricing_list_user_token\", jsonData.data.token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "test@example.com",
+									"description": "required | email",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"description": "require | string",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{pricing_list_user_base_url}}/auth/logout",
+							"host": [
+								"{{pricing_list_user_base_url}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "test@example.com",
+											"description": "required | email",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"description": "require | string",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{pricing_list_user_base_url}}/auth/login",
+									"host": [
+										"{{pricing_list_user_base_url}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.4.1"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 28 Mar 2025 23:25:23 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"global.response_messages.success\",\n    \"data\": {\n        \"user\": {\n            \"id\": 1,\n            \"name\": \"Test User\",\n            \"email\": \"test@example.com\",\n            \"country_code\": null,\n            \"currency_code\": null,\n            \"created_at\": \"2025-03-28T22:19:36.000000Z\",\n            \"updated_at\": \"2025-03-28T22:19:36.000000Z\"\n        },\n        \"token\": \"1|cRVFxIzY6VsrmyGPgEIaw4mXt4F8ej82nO7AuH8Fd214a734\"\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{pricing_list_user_base_url}}/products?date=2025-03-29",
+							"host": [
+								"{{pricing_list_user_base_url}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "country_code",
+									"value": "MNP",
+									"description": "optional | string | size:3",
+									"disabled": true
+								},
+								{
+									"key": "currency_code",
+									"value": "MNP",
+									"description": "optional | string | size:3",
+									"disabled": true
+								},
+								{
+									"key": "date",
+									"value": "2025-03-29",
+									"description": "optional | date | format: Y-m-d"
+								},
+								{
+									"key": "order",
+									"value": "highest_to_lowest",
+									"description": "optional | enum | values: lowest_to_highest, highest_to_lowest",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{pricing_list_user_base_url}}/products",
+									"host": [
+										"{{pricing_list_user_base_url}}"
+									],
+									"path": [
+										"products"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.4.1"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 29 Mar 2025 00:36:39 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"Product quia\",\n            \"base_price\": \"810.05\",\n            \"applicable_price\": \"339.25\"\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Product sequi\",\n            \"base_price\": \"607.73\",\n            \"applicable_price\": \"245.69\"\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Product eos\",\n            \"base_price\": \"898.03\",\n            \"applicable_price\": \"257.20\"\n        },\n        {\n            \"id\": 4,\n            \"name\": \"Product tenetur\",\n            \"base_price\": \"413.26\",\n            \"applicable_price\": \"469.82\"\n        },\n        {\n            \"id\": 5,\n            \"name\": \"Product perferendis\",\n            \"base_price\": \"534.91\",\n            \"applicable_price\": \"428.04\"\n        },\n        {\n            \"id\": 6,\n            \"name\": \"Product omnis\",\n            \"base_price\": \"212.77\",\n            \"applicable_price\": \"433.78\"\n        },\n        {\n            \"id\": 7,\n            \"name\": \"Product voluptas\",\n            \"base_price\": \"662.66\",\n            \"applicable_price\": \"42.82\"\n        }\n    ],\n    \"links\": {\n        \"first\": \"http://127.0.0.1/users/products?page=1\",\n        \"last\": \"http://127.0.0.1/users/products?page=1\",\n        \"prev\": null,\n        \"next\": null\n    },\n    \"meta\": {\n        \"current_page\": 1,\n        \"from\": 1,\n        \"last_page\": 1,\n        \"links\": [\n            {\n                \"url\": null,\n                \"label\": \"&laquo; Previous\",\n                \"active\": false\n            },\n            {\n                \"url\": \"http://127.0.0.1/users/products?page=1\",\n                \"label\": \"1\",\n                \"active\": true\n            },\n            {\n                \"url\": null,\n                \"label\": \"Next &raquo;\",\n                \"active\": false\n            }\n        ],\n        \"path\": \"http://127.0.0.1/users/products\",\n        \"per_page\": 15,\n        \"to\": 7,\n        \"total\": 7\n    },\n    \"message\": \"user.response_messages.ok\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Show",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('product_id', 1)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{pricing_list_user_base_url}}/products/{{product_id}}?country_code&currency_code&date",
+							"host": [
+								"{{pricing_list_user_base_url}}"
+							],
+							"path": [
+								"products",
+								"{{product_id}}"
+							],
+							"query": [
+								{
+									"key": "country_code",
+									"value": null,
+									"description": "optioanl | string | size: 3"
+								},
+								{
+									"key": "currency_code",
+									"value": null,
+									"description": "optioanl | string | size: 3"
+								},
+								{
+									"key": "date",
+									"value": null,
+									"description": "optioanl | date | format: Y-m-d"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{pricing_list_user_base_url}}/products/{{product_id}}?country_code&currency_code&date",
+									"host": [
+										"{{pricing_list_user_base_url}}"
+									],
+									"path": [
+										"products",
+										"{{product_id}}"
+									],
+									"query": [
+										{
+											"key": "country_code",
+											"value": null
+										},
+										{
+											"key": "currency_code",
+											"value": null
+										},
+										{
+											"key": "date",
+											"value": null
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.4.1"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 29 Mar 2025 00:36:39 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"success\",\n    \"data\": {\n        \"product\": {\n            \"id\": 1,\n            \"name\": \"Product quia\",\n            \"base_price\": \"810.05\",\n            \"applicable_price\": \"810.05\",\n            \"description\": \"Nemo in et suscipit odio. Id mollitia quisquam ut. Aut saepe voluptatem officia perspiciatis. Dolorum qui deleniti dolore iusto repellat dolorum.\"\n        }\n    }\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{pricing_list_user_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"pm.request.headers.add(\"accept:application/json\");",
+					"",
+					"pm.request.headers.add(`X-Lang:${pm.environment.get(\"lang\")}`);",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
