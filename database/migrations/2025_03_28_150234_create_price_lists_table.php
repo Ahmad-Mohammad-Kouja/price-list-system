@@ -25,8 +25,8 @@ return new class extends Migration
                 ->nullable();
 
             $table->decimal('price', 10, 2)->unsigned();
-            $table->date('start_date')->nullable();
-            $table->date('end_date')->nullable();
+            $table->date('start_date')->nullable()->index();
+            $table->date('end_date')->nullable()->index();
             $table->unsignedInteger('priority');
             $table->timestamps();
 
