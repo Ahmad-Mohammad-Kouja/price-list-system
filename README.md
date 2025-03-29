@@ -70,3 +70,8 @@
     - we can separate the price_lists table to have table for each product_id ({$productId}_price_lists)
     - We can move the old data after like one year or 6 months to another table and keep the newly created data
     (also prevent the user from using dates less than 6 months)
+
+
+## Note
+    We only consider what to do if the number of records becomes more
+    We can also consider what to do in the server structure if the number of users and demands on our service increase also
