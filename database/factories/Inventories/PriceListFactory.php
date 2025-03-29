@@ -27,13 +27,14 @@ class PriceListFactory extends Factory
      */
     public function definition(): array
     {
+        $shouldHaveDateRange = fake()->boolean(70);
         return [
             'product_id' => Product::factory(),
             'country_id' => fake()->boolean(70) ? Country::factory() : null,
             'currency_id' => fake()->boolean(70) ? Currency::factory() : null,
             'price' => fake()->randomFloat(2, 5, 500),
-            'start_date' => fake()->boolean(70) ? fake()->dateTimeThisYear() : null,
-            'end_date' => fake()->boolean(50) ? fake()->dateTimeThisYear('+6 months') : null,
+            'start_date' => $shouldHaveDateRange ? fake()->dateTimeThisYear() : null,
+            'end_date' => $shouldHaveDateRange ? fake()->dateTimeThisYear('+6 months') : null,
             'priority' => fake()->numberBetween(1, 100),
         ];
     }
