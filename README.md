@@ -1,66 +1,77 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## Price Listing System Documentation
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+- How to run the project.
+- Code Structure.
+- Database Structure.
+- Why did I choose this solution?
+- What can we do to get better performance (in case the application keeps growing)
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## How to run the project
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+    Basic way (requires PHP > 8.2)
+        - copy the .env.example and name it .env
+        - composer install
+        - run php artisan key:generate
+        - composer install  
+        - php artisan migrate
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+    Using docker
+        - docker-compose build
+        - docker-compose up
+        - docker-compose exec laravel.test sh (to open the container terminal)
+        - composer install
+        - cp .env.example .env
+        - php artisan key:generate
+        - php artisan migrate
+        - docker-compose restart
 
-## Learning Laravel
+ ## Code structure
+    The structure has 2 main folders
+    domain (where all the business logic resides)
+    src (containing the applications (users, admin...)) in this folder, 
+    We only consume the business logic from the domain folders
+    Each application has its resource, requests to serve its needs
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Database structure
+    The database structure is the same as the one in the test file you sent, with some small changes
+    - The description for the product is in a separate table 
+    (It contains a text (may be very big) column, we don't use it a lot, so no need to have it in the main product table)
+    - In the price_lists table, we use the foreign key for country and currency instead of 3-character columns 
+    (I will describe the purpose in detail in the next section)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Why did I choose this solution
+    Let's discuss all the possible solutions (based on the number of records in the product and product_lists table) 
+    - small number of records, let's consider it 500K or less
+        Every solution can fit in this range, so the best one will be 
+        (less code, less time, less amount of used services and computing resources)
+        using country_code and currency_code (consider using an index for each of them) in the price_list table,
+        and take the user input and use it to search the table
+        no additional joins with the countries and currencies table 
+        The project will work without problems
+        The search for an integer foreign is, of course, more efficient than the string 
+        (But we have only 3 chars, and with indexes, the difference is very low)
+    - when the application starts to grow and the price_list becomes bigger
+        The size of 3 char is 3 bytes, the size of a tiny integer is 1 byte 
+        (We use a tiny integer because its max number is 255, because countries and currencies are less than 200)
+        With a 100M record, the difference in size between the 2 tables will be 200 megabytes, 
+        Also, the difference in speed between using an index char and a foreign integer will increase
+        So we will start working on tiny integers as the foreign keys instead of the currency code
+        We will face a small problem that the user input will still currency code and country code (not IDs)
+        So if we want to not search using codes, instead of integers, 
+        We need to take the country code and get the country ID, and use it in the search
+        We may have 2 more queries on each request (one for currency and the other for country)
+        Because the number of countries and currencies is small, and they are barely changing
+        We can cache these queries in Redis 
+        (but we have to manage the Redis service and remember to clear the cache on each change to the cached data)
+        
+## What can we do to get better performance (in case the application keeps growing)
+    If the price list keeps growing and the performance becomes slow
+    - we can separate the price_lists table to have table for each product_id ({$productId}_price_lists)
+    - We can move the old data after like one year or 6 months to another table and keep the newly created data
+    (also prevent the user from using dates less than 6 months)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Note
+    We only consider what to do if the number of records becomes more
+    We can also consider what to do in the server structure if the number of users and demands on our service increase also
