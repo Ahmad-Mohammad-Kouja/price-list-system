@@ -23,14 +23,25 @@ class PriceListFilterDTO
 
     private ?PriceListSortingEnum $priceListSorting = null;
 
-    public function __construct()
-    {
-        $this->date = Carbon::now();
+    public function __construct(
+        ?int $countryId = null,
+        ?int $currencyId = null,
+        ?Carbon $date = null,
+        ?PriceListSortingEnum $priceListSorting = null
+    ) {
+        $this->countryId = $countryId;
+        $this->currencyId = $currencyId;
+        $this->date = $date ?? Carbon::now();
+        $this->priceListSorting = $priceListSorting;
     }
 
-    public static function new(): self
-    {
-        return new self();
+    public static function new(
+        ?int $countryId = null,
+        ?int $currencyId = null,
+        ?Carbon $date = null,
+        ?PriceListSortingEnum $priceListSorting = null
+    ): self {
+        return new self($countryId, $currencyId, $date, $priceListSorting);
     }
 
     public function hasCountryId(): bool
