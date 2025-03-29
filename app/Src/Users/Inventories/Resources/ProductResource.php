@@ -23,7 +23,7 @@ class ProductResource extends JsonResource
                 $this->applicable_price
             ),
             'description' => $this->when(
-                $this->description_id !== null,
+                $this->product_description_id !== null,
                 $this->description
             )
         ];
