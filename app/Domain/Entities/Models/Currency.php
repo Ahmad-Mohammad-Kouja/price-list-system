@@ -3,9 +3,11 @@
 namespace App\Domain\Entities\Models;
 
 use Database\Factories\Entities\CurrencyFactory;
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class Currency extends Model
 {
@@ -42,9 +44,15 @@ class Currency extends Model
 
     public function findByCode(string $code): ?self
     {
-        return Cache::rememberForever(
-            "currencies.{$code}",
-            fn() => self::query()->where('code', $code)->first(),
-        );
+        try {
+            return Cache::rememberForever(
+                "currencies.{$code}",
+                fn() => self::query()->where('code', $code)->first(),
+            );
+        } catch (Exception $exception) {
+            Log::warning("error on get currency: $code from cache, exception: {$exception->getMessage()}");
+        }
+
+        return null;
     }
 }
