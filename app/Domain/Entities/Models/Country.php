@@ -2,6 +2,7 @@
 
 namespace App\Domain\Entities\Models;
 
+use Cache;
 use Database\Factories\Entities\CountryFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -37,5 +38,13 @@ class Country extends Model
     protected static function newFactory()
     {
         return CountryFactory::new();
+    }
+
+    public function findByCode(string $code): ?self
+    {
+        return Cache::rememberForever(
+            "countries.{$code}",
+            fn() => self::query()->where('code', $code)->first(),
+        );
     }
 }

@@ -5,13 +5,14 @@ namespace App\Domain\Entities\Models;
 use Database\Factories\Entities\CurrencyFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class Currency extends Model
 {
     use HasFactory;
 
     protected $table = 'currencies';
-    
+
     /**
      * Indicates if the model should be timestamped.
      *
@@ -37,5 +38,13 @@ class Currency extends Model
     protected static function newFactory()
     {
         return CurrencyFactory::new();
+    }
+
+    public function findByCode(string $code): ?self
+    {
+        return Cache::rememberForever(
+            "currencies.{$code}",
+            fn() => self::query()->where('code', $code)->first(),
+        );
     }
 }
